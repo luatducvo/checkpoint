@@ -15,6 +15,10 @@
     --mp-gradient: linear-gradient(135deg, #00f2fe 0%, #38bdf8 100%);
     --mp-glow: rgba(0, 242, 254, 0.45);
     
+    --marker-mp-color: #dc2626;
+    --marker-mp-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    --marker-mp-glow: rgba(220, 38, 38, 0.45);
+    
     --pano-color: #ea580c;
     --pano-color-dark: #9a3412;
     --pano-gradient: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
@@ -456,8 +460,8 @@ body {
 /* Map Markers Styling */
 .map-marker {
     position: absolute;
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     transform: translate(-50%, -50%);
     cursor: move;
     z-index: 100;
@@ -465,7 +469,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
     transition: width 0.2s, height 0.2s, transform 0.1s;
     user-select: none;
 }
@@ -481,30 +485,30 @@ body {
     animation: marker-pulse 2s infinite;
 }
 
-.map-marker.mp-marker {
-    background: var(--mp-gradient);
-    border: 2px solid #fff;
-    color: #0f172a;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.95), 0 8px 18px rgba(0, 0, 0, 0.35);
+.map-marker.matterport-marker {
+    background: var(--marker-mp-gradient);
+    border: 1px solid #fff;
+    color: #ffffff;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.95), 0 6px 14px rgba(0, 0, 0, 0.35);
 }
 
-.map-marker.mp-marker::after {
-    box-shadow: 0 0 0 8px var(--mp-glow);
+.map-marker.matterport-marker::after {
+    box-shadow: 0 0 0 6px var(--marker-mp-glow);
 }
 
 .map-marker.pano-marker {
     background: var(--pano-gradient);
-    border: 2px solid #fff;
+    border: 1px solid #fff;
     color: #fff;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.95), 0 8px 18px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.95), 0 6px 14px rgba(0, 0, 0, 0.35);
 }
 
 .map-marker.pano-marker::after {
-    box-shadow: 0 0 0 8px var(--pano-glow);
+    box-shadow: 0 0 0 6px var(--pano-glow);
 }
 
 .map-marker-label {
-    font-size: 10px;
+    font-size: 8px;
     font-weight: 800;
     pointer-events: none;
 }
@@ -576,8 +580,8 @@ body {
 }
 
 .mp-dot {
-    background: var(--mp-gradient);
-    box-shadow: 0 0 8px var(--mp-color);
+    background: var(--marker-mp-gradient);
+    box-shadow: 0 0 8px var(--marker-mp-color);
 }
 
 .pano-dot {

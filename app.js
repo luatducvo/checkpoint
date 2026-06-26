@@ -667,27 +667,27 @@ function exportAnnotatedImage() {
             
             // Choose color
             const isMp = marker.type === 'matterport';
-            const color = isMp ? '#00f2fe' : '#f97316';
+            const color = isMp ? '#dc2626' : '#f97316';
             
             // 1. Draw pulsing glow ring
             ctx.beginPath();
-            ctx.arc(x, y, 22, 0, 2 * Math.PI);
+            ctx.arc(x, y, 18, 0, 2 * Math.PI);
             ctx.fillStyle = color + '30'; // 18% opacity glow
             ctx.fill();
             
             // 2. Draw white outer shell
             ctx.beginPath();
-            ctx.arc(x, y, 14, 0, 2 * Math.PI);
+            ctx.arc(x, y, 11, 0, 2 * Math.PI);
             ctx.fillStyle = '#ffffff';
             ctx.fill();
             ctx.shadowColor = 'rgba(0,0,0,0.3)';
-            ctx.shadowBlur = 8;
+            ctx.shadowBlur = 6;
             ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 4;
+            ctx.shadowOffsetY = 3;
             
             // 3. Draw colored center
             ctx.beginPath();
-            ctx.arc(x, y, 10, 0, 2 * Math.PI);
+            ctx.arc(x, y, 8, 0, 2 * Math.PI);
             ctx.fillStyle = color;
             ctx.fill();
             
@@ -697,20 +697,20 @@ function exportAnnotatedImage() {
             ctx.shadowOffsetY = 0;
             
             // 4. Draw label bubble next to the pin
-            ctx.font = 'bold 13px "Plus Jakarta Sans", "Segoe UI", sans-serif';
+            ctx.font = 'bold 8px "Plus Jakarta Sans", "Segoe UI", sans-serif';
             const labelText = marker.name;
             const textWidth = ctx.measureText(labelText).width;
-            const boxWidth = textWidth + 16;
-            const boxHeight = 24;
-            const boxX = x + 20;
-            const boxY = y - 12;
+            const boxWidth = textWidth + 8;
+            const boxHeight = 12;
+            const boxX = x + 12;
+            const boxY = y - 6;
             
             // Draw background rectangle for tooltip text
-            ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 2;
+            ctx.fillStyle = color;
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1;
             
-            drawRoundedRect(ctx, boxX, boxY, boxWidth, boxHeight, 6);
+            drawRoundedRect(ctx, boxX, boxY, boxWidth, boxHeight, 4);
             ctx.fill();
             ctx.stroke();
             
@@ -718,7 +718,7 @@ function exportAnnotatedImage() {
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
-            ctx.fillText(labelText, boxX + 8, boxY + boxHeight / 2);
+            ctx.fillText(labelText, boxX + 4, boxY + boxHeight / 2);
         });
         
         // Export & download
