@@ -1,0 +1,11 @@
+{
+  "name": "pagoda-annotator",
+  "version": "1.0.0",
+  "description": "Virtual Tour Planner for Buu Minh Pagoda",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y http-server -p 3000",
+    "dev": "npx -y http-server -p 3000"
+  },
+  "dependencies": {}
+}

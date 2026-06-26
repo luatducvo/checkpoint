@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trình Hoạch Định Tour Ảo Chùa Bửu Minh</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-vr-cardboard logo-icon"></i>
+                    <div>
+                        <h1>Virtual Tour</h1>
+                        <p>Sitemap Planner</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Background Image Section -->
+            <section class="section">
+                <h3 class="section-title">1. Ảnh nền sơ đồ</h3>
+                <div class="bg-upload-container" style="display: flex; flex-direction: column; gap: 8px;">
+                    <button class="btn btn-secondary" id="btn-upload-bg" style="font-size: 12px; padding: 10px;">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Tải ảnh sơ đồ lên
+                    </button>
+                    <input type="file" id="file-bg-upload" accept="image/*" style="display: none;">
+                    <button class="btn btn-danger" id="btn-reset-bg" style="display: none; font-size: 11px; padding: 6px 10px;">
+                        <i class="fa-solid fa-arrow-rotate-left"></i> Đặt lại ảnh gốc
+                    </button>
+                </div>
+            </section>
+
+            <!-- Marker Type Selector -->
+            <section class="section">
+                <h3 class="section-title">2. Chọn loại điểm chụp</h3>
+                <div class="marker-selector">
+                    <button class="selector-btn active" id="btn-matterport" data-type="matterport">
+                        <div class="btn-indicator mp-indicator"></div>
+                        <i class="fa-solid fa-cube"></i>
+                        <span>Matterport (3D Scan)</span>
+                    </button>
+                    <button class="selector-btn" id="btn-pano" data-type="pano">
+                        <div class="btn-indicator pano-indicator"></div>
+                        <i class="fa-solid fa-circle-notch"></i>
+                        <span>Panorama 360°</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Statistics -->
+            <section class="section stats-section">
+                <h3 class="section-title">3. Thống kê điểm chụp</h3>
+                <div class="stats-grid">
+                    <div class="stat-card mp-card">
+                        <span class="stat-label">Matterport</span>
+                        <span class="stat-value" id="count-mp">0</span>
+                    </div>
+                    <div class="stat-card pano-card">
+                        <span class="stat-label">Panorama 360°</span>
+                        <span class="stat-value" id="count-pano">0</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Actions and Export -->
+            <section class="section actions-section">
+                <h3 class="section-title">4. Xuất dữ liệu & Bản vẽ</h3>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="btn-export-img">
+                        <i class="fa-solid fa-file-image"></i> Xuất ảnh sơ đồ (PNG)
+                    </button>
+                    <button class="btn btn-danger" id="btn-clear-all">
+                        <i class="fa-solid fa-trash-can"></i> Xóa tất cả điểm
+                    </button>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <header class="workspace-header">
+                <div class="title-area">
+                    <h2>Thiết lập điểm chụp Tour ảo</h2>
+                    <p class="subtitle">Kéo thả để di chuyển vị trí, nhấp chuột để chỉnh sửa thông tin điểm chụp.</p>
+                </div>
+                <div class="zoom-controls">
+                    <button class="zoom-btn" id="btn-zoom-out" title="Thu nhỏ"><i class="fa-solid fa-minus"></i></button>
+                    <span class="zoom-level" id="zoom-value">100%</span>
+                    <button class="zoom-btn" id="btn-zoom-in" title="Phóng to"><i class="fa-solid fa-plus"></i></button>
+                    <button class="zoom-btn" id="btn-zoom-reset" title="Đặt lại"><i class="fa-solid fa-arrows-to-eye"></i></button>
+                </div>
+            </header>
+
+            <div class="map-viewport" id="map-viewport">
+                <div class="map-container" id="map-container">
+                    <img src="pagoda_dollhouse.png" alt="" id="dollhouse-map-img">
+                    <div class="markers-overlay" id="markers-overlay"></div>
+                </div>
+            </div>
+
+            <!-- Legend/Instructions footer -->
+            <footer class="workspace-footer">
+                <div class="legend-item">
+                    <span class="legend-dot mp-dot"></span>
+                    <span><strong>Matterport 3D Scan:</strong> Thích hợp cho không gian nội thất, phòng ốc, hành lang để người xem có thể đi lại liên tục 3D.</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot pano-dot"></span>
+                    <span><strong>Panorama 360°:</strong> Thích hợp cho không gian ngoài trời, góc trên cao (drone), sân vườn, danh lam thắng cảnh bao quanh nơi không cần đi lại liên tục.</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Edit Marker Modal -->
+    <div class="modal-backdrop" id="edit-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Chỉnh sửa điểm chụp</h3>
+                <button class="close-btn" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-marker-id">
+                <div class="form-group">
+                    <label for="edit-name">Tên / Ký hiệu điểm</label>
+                    <input type="text" id="edit-name" placeholder="Ví dụ: Cổng chính, Chánh điện 1, Tháp tầng 1...">
+                </div>
+                <div class="form-group">
+                    <label for="edit-type">Phương thức chụp</label>
+                    <select id="edit-type">
+                        <option value="matterport">Matterport (3D Depth Scan)</option>
+                        <option value="pano">Panorama 360° (Ảnh toàn cảnh)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-elevation">Vị trí / Tầng / Độ cao</label>
+                    <input type="text" id="edit-elevation" placeholder="Ví dụ: Tầng trệt, Ngoại cảnh, Lầu 1, Tháp tầng cao...">
+                </div>
+                <div class="form-group">
+                    <label for="edit-notes">Ghi chú chi tiết</label>
+                    <textarea id="edit-notes" rows="3" placeholder="Ghi chú thêm cho kỹ thuật viên khi đi quét..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="modal-delete" style="margin-right: auto;">Xóa điểm</button>
+                <button class="btn btn-secondary" id="modal-cancel">Hủy</button>
+                <button class="btn btn-primary" id="modal-save">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
